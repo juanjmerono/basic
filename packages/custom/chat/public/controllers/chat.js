@@ -6,5 +6,19 @@ angular.module('mean.chat').controller('ChatController', ['$scope', 'Global', 'C
     $scope.package = {
       name: 'chat'
     };
+    
+    $scope.find = function() {
+        Chat.query(function(chat) {
+          $scope.chat = chat;
+        });
+      };
+    
+    $scope.sendMessage = function () {
+    	var chat = new Chat({content:this.content});
+    	chat.$save(function(response) {
+          $scope.find();
+        });
+    };
+      
   }
 ]);
