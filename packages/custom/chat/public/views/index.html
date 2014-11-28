@@ -1,6 +1,7 @@
 <div class="" data-ng-controller="ChatController" data-ng-init="find()">
   <h1>Example view from your new awesome package</h1>
   <h2>Package: {{package.name}}</h2>
+  <div>{{alertMessage}}</div>
   <li data-ng-repeat="ch in chat">
     <div>{{ch.user.name}}: {{ch.content}}</div>
   </li>
