@@ -24,6 +24,13 @@ var online = {
 		for (var x=0; x<this.data.length; x+=1) {
 			callback(this.data[x].value);
 		}
+	},
+	getOwner:function(){
+		var owner;
+		for (var x=0; x<this.data.length; x+=1) {
+			if (!owner) owner = this.data[x].value.user;
+		}
+		return owner;
 	}
 };
 
@@ -37,13 +44,13 @@ mean.serve({ /*options placeholder*/ }, function(app, config) {
 	wss.on('connection', function(ws) {
 		online.add(ws);
 		ws.on('message', function(message) {
-			var data = message.split('::');
 			online.foreach(function(current){
 				if (current.id !== ws.id) {
 					current.send(message);
 				} else {
-					if (data[0]==='open') {
-						current.user = data[1];
+					var data = JSON.parse(message);
+					if (data.event==='open') {
+						current.user = data.from;
 					}
 				}
 			});
@@ -51,10 +58,22 @@ mean.serve({ /*options placeholder*/ }, function(app, config) {
 		ws.on('close', function(){
 			var usr = online.remove(ws.id);
 			online.foreach(function(current){
-				current.send('close::'+usr);
+				current.send(JSON.stringify({
+		        	 'event':'close',
+		        	 'from':usr,
+		        	 'data':{
+		        		 'username':usr
+		        	 }
+		         }));
 			});
 		});
-		ws.send('connected');
+		ws.send(JSON.stringify({
+       	 'event':'connected',
+       	 'owner':online.getOwner(),
+    	 'data':{
+    		 'count':online.data.length
+    	 }
+     }));
 	});
 });
 

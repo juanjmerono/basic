@@ -23,6 +23,10 @@ var ChatSchema = new Schema({
   user: {
     type: Schema.ObjectId,
     ref: 'User'
+  },
+  userName: {
+	type: String,
+	trim: true
   }
 });
 

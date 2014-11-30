@@ -7,6 +7,10 @@ module.exports = function(Chat, app, auth, database) {
 
 	  app.route('/chat')
 	    .get(chat.all)
-	    .post(auth.requiresLogin, chat.create);
+	    .post(chat.create);
 
+	  /*app.route('/chat')
+	    .get(auth.requiresLogin, chat.all)
+	    .post(auth.requiresLogin, chat.create);*/
+ 
 };

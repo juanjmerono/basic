@@ -42,7 +42,7 @@ exports.create = function(req, res) {
  * List of Chat
  */
 exports.all = function(req, res) {
-  Chat.find().sort('-created').populate('user', 'name username').exec(function(err, chats) {
+  Chat.find().sort('+created').populate('user', 'name username').exec(function(err, chats) {
     if (err) {
       return res.json(500, {
         error: 'Cannot list the chats'
