@@ -180,6 +180,7 @@ angular.module('mean.chat').controller('ChatController', ['$scope', 'Global', 'C
 		    	getUserMedia(function (stream) {
 			       	var offererToAnswerer = document.getElementById('peer1-to-peer2');
 			       	offererToAnswerer.style.width = '20%';
+			       	offererToAnswerer.muted = true;
 			        offererToAnswerer.src = URL.createObjectURL(stream);
 			        offererToAnswerer.play();
 					answererPeer($scope.userName, ws, data.data.sdp, stream);
@@ -229,6 +230,7 @@ angular.module('mean.chat').controller('ChatController', ['$scope', 'Global', 'C
     	getUserMedia(function (stream) {
 	       	 var answererToOfferer = document.getElementById('peer2-to-peer1');
 	       	 answererToOfferer.style.width = '20%';
+	       	 answererToOfferer.muted = true; // Avoid audio loopback
 	         answererToOfferer.src = URL.createObjectURL(stream);
 	         answererToOfferer.play();
     	     offererPeer($scope.userName,ws,stream);
